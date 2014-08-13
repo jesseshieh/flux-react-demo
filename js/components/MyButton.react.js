@@ -11,7 +11,8 @@ var MyButton = React.createClass({
 
   _onClick: function() {
     AppDispatcher.handleViewAction({
-      actionType: "click"
+      actionType: "increment",
+      amount: 2
     });
   }
 });

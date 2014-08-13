@@ -2,6 +2,7 @@
 var React = require('react');
 var MyButton = require('./MyButton.react');
 var MyName = require('./MyName.react');
+var IncrementAction = require('../actions/IncrementAction');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 var CommandCenter = React.createClass({
@@ -15,7 +16,13 @@ var CommandCenter = React.createClass({
 
   componentDidMount: function() {
     AppDispatcher.register(function(payload) {
-      this.data.count += 1;
+      switch (payload.action.actionType) {
+        case "increment":
+          var incrementAmount = payload.action.amount;
+          var action = new IncrementAction(incrementAmount);
+          this.data = action.perform(this.data);
+          break;
+      }
       this.setState(this.data); // This re-renders the entire app.
       return true;
     }.bind(this));
